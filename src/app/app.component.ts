@@ -13,6 +13,6 @@ export class AppComponent {
   logout() {
     localStorage.removeItem('registeredEmail');
     localStorage.removeItem('registeredPassword');
-    this.router.navigate(['/home']); // Redirigir a la página de inicio de sesión
+    this.router.navigate(['/login']); // Redirigir a la página de inicio de sesión
   }
 }
