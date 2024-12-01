@@ -5,7 +5,7 @@
   <div class="login-container">
     <!-- Formulario de Login -->
     <ion-card class="login-card" aria-labelledby="login-title" role="form">
-      <!-- <ion-img src="assets/QUICKYCOFFEE.png" alt="Logo QUICKYCOFFEE" class="login-image"></ion-img> -->
+      <!-- <ion-img src="assets/QUICKYCOFFEE.png" alt="Logo Quicky Coffee" class="login-image"></ion-img> -->
 
       <ion-card-header id="login-title">
         <ion-card-title>Accede a tu cuenta</ion-card-title>
@@ -15,12 +15,23 @@
         <form (ngSubmit)="login()">
           <ion-item>
             <ion-label position="floating">Correo Electrónico</ion-label>
-            <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
+            <ion-input 
+              type="email" 
+              [(ngModel)]="email" 
+              name="email" 
+              required
+              inputmode="email">
+            </ion-input>
           </ion-item>
 
           <ion-item>
             <ion-label position="floating">Contraseña</ion-label>
-            <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+            <ion-input 
+              type="password" 
+              [(ngModel)]="password" 
+              name="password" 
+              required>
+            </ion-input>
           </ion-item>
 
           <!-- Mensaje de error -->
@@ -32,11 +43,12 @@
         </form>
       </ion-card-content>
 
-      <ion-row class="ion-justify-content-center ion-align-items-center">
-        <p><strong>¿Aún no tienes cuenta?</strong></p>
-      </ion-row>
-
-      <ion-button expand="block" color="secondary" routerLink="/register">Crear una cuenta</ion-button>
+      <div class="register-container">
+        <p class="register-text">¿Aún no tienes cuenta?</p>
+        <ion-button expand="block" fill="outline" color="secondary" routerLink="/register">
+          Crear una cuenta
+        </ion-button>
+      </div>
     </ion-card>
   </div>
 </ion-content>
