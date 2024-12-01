@@ -23,6 +23,7 @@
       <ion-col>Modelo</ion-col>
       <ion-col>Ubicación</ion-col>
       <ion-col>Código de Barras</ion-col>
+      <ion-col>Foto</ion-col> <!-- Nueva columna para mostrar la foto -->
       <ion-col>Acciones</ion-col>
     </ion-row>
     <ion-row *ngFor="let activo of activos">
@@ -31,11 +32,15 @@
       <ion-col>{{ activo.ubicacion }}</ion-col>
       <ion-col>{{ activo.codigoBarras }}</ion-col>
       <ion-col>
+        <ion-img [src]="activo.foto" class="small-image"></ion-img> <!-- Mostrar la foto -->
+      </ion-col>
+      <ion-col>
         <ion-button size="small" (click)="openEditActivoModal(activo)">Editar</ion-button>
         <ion-button color="danger" size="small" (click)="deleteActivo(activo)">Eliminar</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
+  
 
   <ion-modal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
     <ion-header>
@@ -104,7 +109,7 @@
               <!-- Mostrar la imagen tomada -->
               <ion-item *ngIf="currentActivo.foto">
                 <ion-img [src]="currentActivo.foto"></ion-img>
-              </ion-item>              
+              </ion-item>                                   
   
       
               <ion-footer>

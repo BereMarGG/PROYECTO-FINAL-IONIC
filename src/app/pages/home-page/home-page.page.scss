@@ -13,3 +13,9 @@ ion-table {
     max-height: 100px;
   }
   
+  .small-image {
+    width: 50px; /* Ajusta el tamaño que desees */
+    height: 50px; /* Mantener la proporción de la imagen */
+    object-fit: cover; /* Asegura que la imagen mantenga sus proporciones */
+  }
+  

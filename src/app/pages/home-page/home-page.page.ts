@@ -77,16 +77,16 @@ export class HomePagePage {
 
   async takePicture() {
     try {
-    const image = await Camera.getPhoto({
-    quality: 90,
-    allowEditing: false,
-    resultType: CameraResultType.DataUrl,
-    source: CameraSource.Camera, // Alternativa: CameraSource.Prompt para elegir entre cámara y galería
-    });
-    this.capturedImage = image.dataUrl;
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Camera, // Alternativa: CameraSource.Prompt para elegir entre cámara y galería
+      });
+      this.currentActivo.foto = image.dataUrl; // Guardar la imagen en currentActivo.foto
     } catch (error) {
-    console.error('Error al capturar imagen:', error);
+      console.error('Error al capturar imagen:', error);
     }
-    }
+  }
   
 }
