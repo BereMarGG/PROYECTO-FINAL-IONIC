@@ -1,0 +1,15 @@
+ion-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  ion-row, ion-col {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .photo-preview img {
+    max-width: 100px;
+    max-height: 100px;
+  }
+  

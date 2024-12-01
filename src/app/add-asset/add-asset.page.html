@@ -1,0 +1,32 @@
+<!-- add-asset.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Añadir Activo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="saveAsset()">
+    <ion-item>
+      <ion-label position="floating">Nombre del Activo</ion-label>
+      <ion-input [(ngModel)]="asset.name" name="name" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-input [(ngModel)]="asset.description" name="description"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Valor</ion-label>
+      <ion-input [(ngModel)]="asset.value" name="value" type="number" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Ubicación</ion-label>
+      <ion-input [(ngModel)]="asset.location" name="location" required></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit">Guardar Activo</ion-button>
+  </form>
+</ion-content>

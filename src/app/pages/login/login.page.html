@@ -1,0 +1,42 @@
+<ion-header>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="home-background">
+  <div class="login-container">
+    <!-- Formulario de Login -->
+    <ion-card class="login-card" aria-labelledby="login-title" role="form">
+      <!-- <ion-img src="assets/QUICKYCOFFEE.png" alt="Logo QUICKYCOFFEE" class="login-image"></ion-img> -->
+
+      <ion-card-header id="login-title">
+        <ion-card-title>Accede a tu cuenta</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form (ngSubmit)="login()">
+          <ion-item>
+            <ion-label position="floating">Correo Electrónico</ion-label>
+            <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+          </ion-item>
+
+          <!-- Mensaje de error -->
+          <ion-text color="danger" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </ion-text>
+
+          <ion-button expand="block" type="submit" color="primary">Iniciar Sesión</ion-button>
+        </form>
+      </ion-card-content>
+
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+        <p><strong>¿Aún no tienes cuenta?</strong></p>
+      </ion-row>
+
+      <ion-button expand="block" color="secondary" routerLink="/register">Crear una cuenta</ion-button>
+    </ion-card>
+  </div>
+</ion-content>
