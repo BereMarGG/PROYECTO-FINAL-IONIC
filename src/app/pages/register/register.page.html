@@ -4,31 +4,53 @@
 <ion-content [fullscreen]="true" class="home-background">
   <div class="register-container">
     <ion-card class="register-card" aria-labelledby="register-title">
-      
+      <!-- <ion-img src="assets/QUICKYCOFFEE.png" alt="Logo Quicky Coffee" class="register-image"></ion-img> -->
+
       <ion-card-header>
-        <ion-card-title>Crea una cuenta</ion-card-title>
+        <ion-card-title id="register-title">Crea una cuenta</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
         <form (ngSubmit)="register()">
           <ion-item>
             <ion-label position="floating">Nombre</ion-label>
-            <ion-input type="text" [(ngModel)]="name" name="name" required></ion-input>
+            <ion-input 
+              type="text" 
+              [(ngModel)]="name" 
+              name="name" 
+              required>
+            </ion-input>
           </ion-item>
-          
+
           <ion-item>
             <ion-label position="floating">Correo Electrónico</ion-label>
-            <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
+            <ion-input 
+              type="email" 
+              [(ngModel)]="email" 
+              name="email" 
+              required 
+              inputmode="email">
+            </ion-input>
           </ion-item>
-          
+
           <ion-item>
             <ion-label position="floating">Contraseña</ion-label>
-            <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+            <ion-input 
+              type="password" 
+              [(ngModel)]="password" 
+              name="password" 
+              required>
+            </ion-input>
           </ion-item>
-          
+
           <ion-item>
             <ion-label position="floating">Confirmar Contraseña</ion-label>
-            <ion-input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required></ion-input>
+            <ion-input 
+              type="password" 
+              [(ngModel)]="confirmPassword" 
+              name="confirmPassword" 
+              required>
+            </ion-input>
           </ion-item>
 
           <!-- Mensaje de error -->
@@ -40,11 +62,12 @@
         </form>
       </ion-card-content>
 
-      <ion-row class="ion-justify-content-center ion-align-items-center">
-        <p><strong>¿Ya tienes cuenta?</strong></p>
-      </ion-row>
-
-      <ion-button expand="block" color="secondary" routerLink="/login">Iniciar Sesión</ion-button>
+      <div class="login-link-container">
+        <p class="login-link-text">¿Ya tienes cuenta?</p>
+        <ion-button expand="block" fill="outline" color="secondary" routerLink="/login">
+          Iniciar Sesión
+        </ion-button>
+      </div>
     </ion-card>
   </div>
 </ion-content>
