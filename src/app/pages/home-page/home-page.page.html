@@ -8,6 +8,11 @@
 </ion-header>
 
 <ion-content>
+  <div *ngIf="latitude && longitude">
+    <p><strong>Ubicación actual:</strong></p>
+    <p>Latitud: {{ latitude }}</p>
+    <p>Longitud: {{ longitude }}</p>
+  </div>
   <ion-header>
     <ion-toolbar>
       <ion-title>Lista de Activos</ion-title>

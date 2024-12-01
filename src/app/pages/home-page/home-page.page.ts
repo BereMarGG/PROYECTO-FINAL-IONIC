@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { NgForm } from '@angular/forms';
-
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
 @Component({
   selector: 'app-home-page',
@@ -15,8 +15,12 @@ export class HomePagePage {
   editing = false;
   capturedImage: string | undefined;
 
-  constructor() {
+  latitude: number = 0;
+  longitude: number = 0;
+
+  constructor(private geolocation: Geolocation) {
     this.loadActivos();
+    this.getLocation(); // Llamar a la función para obtener la ubicación cuando se carga la página
   }
 
   loadActivos() {
@@ -37,9 +41,9 @@ export class HomePagePage {
     this.currentActivo = {
       marca: '',
       modelo: '',
-      ubicacion: '',
+      ubicacion: '', // Aquí se guardará la ubicación como cadena
       codigoBarras: '',
-      foto: ''  // Agregar un campo para la foto
+      foto: '',  // Agregar un campo para la foto
     };
     this.editing = false;
   }
@@ -88,5 +92,16 @@ export class HomePagePage {
       console.error('Error al capturar imagen:', error);
     }
   }
-  
+
+  // Obtener la ubicación del dispositivo y asignarla al activo
+  async getLocation() {
+    try {
+      const resp = await this.geolocation.getCurrentPosition();
+      this.latitude = resp.coords.latitude;
+      this.longitude = resp.coords.longitude;
+      this.currentActivo.ubicacion = `Lat: ${this.latitude}, Lon: ${this.longitude}`; // Guardar la ubicación
+    } catch (error) {
+      console.error('Error obteniendo la ubicación:', error);
+    }
+  }
 }
