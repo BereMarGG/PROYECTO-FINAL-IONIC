@@ -7,19 +7,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div *ngIf="latitude && longitude">
+<ion-content class="ion-padding">
+  <div *ngIf="latitude && longitude" class="location-container">
     <p><strong>Ubicación actual:</strong></p>
     <p>Latitud: {{ latitude }}</p>
     <p>Longitud: {{ longitude }}</p>
   
     <!-- Mapa de Google Maps -->
-    <google-map height="300px" [center]="center" [zoom]="zoom">
+    <google-map class="map-container" [center]="center" [zoom]="zoom">
       <map-marker [position]="center"></map-marker>
     </google-map>
-  
   </div>
-  
+
   <ion-header>
     <ion-toolbar>
       <ion-title>Lista de Activos</ion-title>
@@ -29,109 +28,79 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col>Marca</ion-col>
-      <ion-col>Modelo</ion-col>
-      <ion-col>Ubicación</ion-col>
-      <ion-col>Código de Barras</ion-col>
-      <ion-col>Foto</ion-col> <!-- Nueva columna para mostrar la foto -->
-      <ion-col>Acciones</ion-col>
+  <ion-grid class="responsive-grid">
+    <ion-row class="table-header">
+      <ion-col size="12" size-md="2">Marca</ion-col>
+      <ion-col size="12" size-md="2">Modelo</ion-col>
+      <ion-col size="12" size-md="2">Ubicación</ion-col>
+      <ion-col size="12" size-md="2">Código de Barras</ion-col>
+      <ion-col size="12" size-md="2">Foto</ion-col>
+      <ion-col size="12" size-md="2">Acciones</ion-col>
     </ion-row>
-    <ion-row *ngFor="let activo of activos">
-      <ion-col>{{ activo.marca }}</ion-col>
-      <ion-col>{{ activo.modelo }}</ion-col>
-      <ion-col>{{ activo.ubicacion }}</ion-col>
-      <ion-col>{{ activo.codigoBarras }}</ion-col>
-      <ion-col>
-        <ion-img [src]="activo.foto" class="small-image"></ion-img> <!-- Mostrar la foto -->
+    <ion-row *ngFor="let activo of activos" class="table-row">
+      <ion-col size="12" size-md="2">{{ activo.marca }}</ion-col>
+      <ion-col size="12" size-md="2">{{ activo.modelo }}</ion-col>
+      <ion-col size="12" size-md="2">{{ activo.ubicacion }}</ion-col>
+      <ion-col size="12" size-md="2">{{ activo.codigoBarras }}</ion-col>
+      <ion-col size="12" size-md="2">
+        <ion-img [src]="activo.foto" class="small-image"></ion-img>
       </ion-col>
-      <ion-col>
+      <ion-col size="12" size-md="2">
         <ion-button size="small" (click)="openEditActivoModal(activo)">Editar</ion-button>
         <ion-button color="danger" size="small" (click)="deleteActivo(activo)">Eliminar</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
-  
 
   <ion-modal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>{{ editing ? 'Editar Activo' : 'Agregar Activo' }}</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="closeModal()">Cerrar</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    
-    <ion-content>
-      <ion-modal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
-        <ng-template>
-          <ion-header>
-            <ion-toolbar>
-              <ion-title>Editar Activo</ion-title>
-              <ion-buttons slot="end">
-                <ion-button (click)="closeModal()">Cerrar</ion-button>
-              </ion-buttons>
-            </ion-toolbar>
-          </ion-header>
-      
-          <ion-content>
-            <form #activoForm="ngForm" (ngSubmit)="saveActivo(activoForm)">
-              <!-- Todos los campos de entrada aquí -->
-              <ion-item>
-                <ion-label position="stacked">Marca</ion-label>
-                <ion-input [(ngModel)]="currentActivo.marca" name="marca" required></ion-input>
-              </ion-item>
-      
-              <ion-item>
-                <ion-label position="stacked">Modelo</ion-label>
-                <ion-input [(ngModel)]="currentActivo.modelo" name="modelo" required></ion-input>
-              </ion-item>
-    
-              <ion-item>
-                <ion-label position="stacked">Ubicación</ion-label>
-                <ion-input [(ngModel)]="currentActivo.ubicacion" name="ubicacion" required></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="stacked">Código de Barras</ion-label>
-                <ion-input [(ngModel)]="currentActivo.codigoBarras" name="codigoBarras" required></ion-input>
-              </ion-item>
-    
-              <ion-item>
-                <ion-label position="stacked">Fecha de Adquisición</ion-label>
-                <ion-datetime [(ngModel)]="currentActivo.fechaAdquisicion" name="fechaAdquisicion" displayFormat="DD/MM/YYYY" required></ion-datetime>
-              </ion-item>
-
-              <ion-item>
-                <ion-label position="stacked">Estado</ion-label>
-                <ion-select [(ngModel)]="currentActivo.estado" name="estado" required>
-                  <ion-select-option value="activo">Activo</ion-select-option>
-                  <ion-select-option value="mantenimiento">En Mantenimiento</ion-select-option>
-                  <ion-select-option value="retirado">Retirado</ion-select-option>
-                </ion-select>
-              </ion-item>
-
-              <ion-item>
-                <ion-label position="stacked">Foto</ion-label>
-                <ion-button (click)="takePicture()">Tomar Foto</ion-button>
-                
-              </ion-item>
-              
-              <!-- Mostrar la imagen tomada -->
-              <ion-item *ngIf="currentActivo.foto">
-                <ion-img [src]="currentActivo.foto"></ion-img>
-              </ion-item>                                   
-  
-      
-              <ion-footer>
-                <ion-button expand="block" type="submit">Guardar Activo</ion-button>
-              </ion-footer>
-            </form>
-          </ion-content>
-        </ng-template>
-      </ion-modal>
-      
-    </ion-content>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ editing ? 'Editar Activo' : 'Agregar Activo' }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <form #activoForm="ngForm" (ngSubmit)="saveActivo(activoForm)">
+          <!-- Campos del formulario -->
+          <ion-item>
+            <ion-label position="stacked">Marca</ion-label>
+            <ion-input [(ngModel)]="currentActivo.marca" name="marca" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Modelo</ion-label>
+            <ion-input [(ngModel)]="currentActivo.modelo" name="modelo" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Ubicación</ion-label>
+            <ion-input [(ngModel)]="currentActivo.ubicacion" name="ubicacion" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Código de Barras</ion-label>
+            <ion-input [(ngModel)]="currentActivo.codigoBarras" name="codigoBarras" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Estado</ion-label>
+            <ion-select [(ngModel)]="currentActivo.estado" name="estado" required>
+              <ion-select-option value="activo">Activo</ion-select-option>
+              <ion-select-option value="mantenimiento">En Mantenimiento</ion-select-option>
+              <ion-select-option value="retirado">Retirado</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Foto</ion-label>
+            <ion-button (click)="takePicture()">Tomar Foto</ion-button>
+          </ion-item>
+          <ion-item *ngIf="currentActivo.foto">
+            <ion-img [src]="currentActivo.foto"></ion-img>
+          </ion-item>
+          <ion-footer>
+            <ion-button expand="block" type="submit">Guardar Activo</ion-button>
+          </ion-footer>
+        </form>
+      </ion-content>
+    </ng-template>
   </ion-modal>
 </ion-content>

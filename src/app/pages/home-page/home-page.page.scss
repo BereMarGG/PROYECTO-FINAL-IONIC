@@ -1,27 +1,30 @@
-ion-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  ion-row, ion-col {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .photo-preview img {
-    max-width: 100px;
-    max-height: 100px;
-  }
-  
-  .small-image {
-    width: 50px; /* Ajusta el tamaño que desees */
-    height: 50px; /* Mantener la proporción de la imagen */
-    object-fit: cover; /* Asegura que la imagen mantenga sus proporciones */
-  }
+.location-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  .map-container {
-    height: 400px;
-    width: 100%;
-  }
-  
-  
+.map-container {
+  height: 300px;
+  margin: auto;
+}
+
+.responsive-grid {
+  overflow-x: auto;
+}
+
+.table-header {
+  font-weight: bold;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+
+.table-row ion-col {
+  text-align: center;
+}
+
+.small-image {
+  max-width: 50px;
+  max-height: 50px;
+  border-radius: 5px;
+  object-fit: cover;
+}
