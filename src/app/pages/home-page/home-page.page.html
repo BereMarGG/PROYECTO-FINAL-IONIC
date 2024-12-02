@@ -12,7 +12,14 @@
     <p><strong>Ubicación actual:</strong></p>
     <p>Latitud: {{ latitude }}</p>
     <p>Longitud: {{ longitude }}</p>
+  
+    <!-- Mapa de Google Maps -->
+    <google-map height="300px" [center]="center" [zoom]="zoom">
+      <map-marker [position]="center"></map-marker>
+    </google-map>
+  
   </div>
+  
   <ion-header>
     <ion-toolbar>
       <ion-title>Lista de Activos</ion-title>
