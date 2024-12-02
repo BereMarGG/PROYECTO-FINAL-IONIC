@@ -19,38 +19,48 @@
     </google-map>
   </div>
 
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Lista de Activos</ion-title>
-      <ion-buttons slot="end">
-        <ion-button (click)="openAddActivoModal()">Agregar Activo</ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title></ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="openAddActivoModal()">Agregar Activo</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
 
-  <ion-grid class="responsive-grid">
-    <ion-row class="table-header">
-      <ion-col size="12" size-md="2">Marca</ion-col>
-      <ion-col size="12" size-md="2">Modelo</ion-col>
-      <ion-col size="12" size-md="2">Ubicación</ion-col>
-      <ion-col size="12" size-md="2">Código de Barras</ion-col>
-      <ion-col size="12" size-md="2">Foto</ion-col>
-      <ion-col size="12" size-md="2">Acciones</ion-col>
-    </ion-row>
-    <ion-row *ngFor="let activo of activos" class="table-row">
-      <ion-col size="12" size-md="2">{{ activo.marca }}</ion-col>
-      <ion-col size="12" size-md="2">{{ activo.modelo }}</ion-col>
-      <ion-col size="12" size-md="2">{{ activo.ubicacion }}</ion-col>
-      <ion-col size="12" size-md="2">{{ activo.codigoBarras }}</ion-col>
-      <ion-col size="12" size-md="2">
-        <ion-img [src]="activo.foto" class="small-image"></ion-img>
-      </ion-col>
-      <ion-col size="12" size-md="2">
-        <ion-button size="small" (click)="openEditActivoModal(activo)">Editar</ion-button>
-        <ion-button color="danger" size="small" (click)="deleteActivo(activo)">Eliminar</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
+    <ion-grid>
+  <ion-row class="header-row">
+    <ion-col>Marca</ion-col>
+    <ion-col>Modelo</ion-col>
+    <ion-col>Ubicación</ion-col>
+    <ion-col>Código de Barras</ion-col>
+    <ion-col>Foto</ion-col>
+    <ion-col>Acciones</ion-col>
+  </ion-row>
+  
+  <ion-row *ngFor="let activo of activos" class="data-row">
+    <ion-col>{{ activo.marca }}</ion-col>
+    <ion-col>{{ activo.modelo }}</ion-col>
+    <ion-col>{{ activo.ubicacion }}</ion-col>
+    <ion-col>{{ activo.codigoBarras }}</ion-col>
+    <ion-col>
+      <ion-img [src]="activo.foto" alt="Foto de {{ activo.marca }}"></ion-img>
+    </ion-col>
+    <ion-col>
+      <ion-button fill="outline" (click)="openEditActivoModal(activo)">
+        <ion-icon slot="start" name="pencil"></ion-icon> Editar
+      </ion-button>
+      <ion-button color="danger" fill="outline" (click)="deleteActivo(activo)">
+        <ion-icon slot="start" name="trash"></ion-icon> Eliminar
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+    
+    
 
   <ion-modal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
     <ng-template>
