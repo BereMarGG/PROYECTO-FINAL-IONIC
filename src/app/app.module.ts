@@ -12,13 +12,13 @@ import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx'; // Impor
 import { GoogleMapsModule } from '@angular/google-maps';
 import { HomePagePageModule } from './pages/home-page/home-page.module'; // Import the module
 import { HttpClientModule } from '@angular/common/http'; 
-
+import { MediaCapture } from '@awesome-cordova-plugins/media-capture/ngx';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [ GoogleMapsModule, HttpClientModule,  BrowserModule, IonicStorageModule.forRoot(), IonicModule.forRoot(), AppRoutingModule,  HomePagePageModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], 
-  providers: [Geolocation,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [Geolocation,MediaCapture,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
