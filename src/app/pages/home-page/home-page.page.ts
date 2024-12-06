@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { LocalNotifications } from '@capacitor/local-notifications';
 import { NgForm } from '@angular/forms';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
-import { GoogleMapsModule } from '@angular/google-maps';
-import { environment } from 'src/environments/environment'; 
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-home-page',
@@ -11,6 +14,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./home-page.page.scss'],
 })
 export class HomePagePage {
+  
   activos: any[] = [];
   isModalOpen = false;
   currentActivo: any = {};
@@ -19,20 +23,26 @@ export class HomePagePage {
 
   latitude: number = 0;
   longitude: number = 0;
+  videoId: string = ''; 
 
- // Configuración para mostrar el mapa
- center: google.maps.LatLngLiteral = {
-  lat: this.latitude,
-  lng: this.longitude
-};
+  center: google.maps.LatLngLiteral = {
+    lat: this.latitude,
+    lng: this.longitude,
+  };
 
-zoom = 15;
-googleMapsApiKey = environment.googleMapsApiKey; 
+  zoom = 15;
+  googleMapsApiKey = environment.googleMapsApiKey;
+  youtubeApiKey = environment.youtubeApiKey; 
+  
+  constructor(private geolocation: Geolocation, private http: HttpClient, private sanitizer: DomSanitizer) {
+    this.loadActivos();
+    this.getLocation();
+    this.getVideoFromYouTube('tutorial');
+  }
 
-constructor(private geolocation: Geolocation) {
-  this.loadActivos();
-  this.getLocation(); // Llamar a la función para obtener la ubicación cuando se carga la página
-}
+  get safeVideoUrl() {
+    return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.videoId);
+  }
 
   loadActivos() {
     const storedActivos = localStorage.getItem('activos');
@@ -52,9 +62,9 @@ constructor(private geolocation: Geolocation) {
     this.currentActivo = {
       marca: '',
       modelo: '',
-      ubicacion: '', // Aquí se guardará la ubicación como cadena
+      ubicacion: '',
       codigoBarras: '',
-      foto: '',  // Agregar un campo para la foto
+      foto: '',
     };
     this.editing = false;
   }
@@ -65,8 +75,9 @@ constructor(private geolocation: Geolocation) {
     this.editing = true;
   }
 
-  saveActivo(form: NgForm) {
+  async saveActivo(form: NgForm) {
     if (!form.valid) return;
+
     if (this.editing) {
       const index = this.activos.findIndex(a => a.codigoBarras === this.currentActivo.codigoBarras);
       if (index !== -1) {
@@ -74,6 +85,7 @@ constructor(private geolocation: Geolocation) {
       }
     } else {
       this.activos.push({ ...this.currentActivo });
+      await this.sendLocalNotification(this.currentActivo);
     }
 
     this.saveActivos();
@@ -96,43 +108,65 @@ constructor(private geolocation: Geolocation) {
         quality: 90,
         allowEditing: false,
         resultType: CameraResultType.DataUrl,
-        source: CameraSource.Camera, // Alternativa: CameraSource.Prompt para elegir entre cámara y galería
+        source: CameraSource.Camera,
       });
-      this.currentActivo.foto = image.dataUrl; // Guardar la imagen en currentActivo.foto
+      this.currentActivo.foto = image.dataUrl;
     } catch (error) {
       console.error('Error al capturar imagen:', error);
     }
   }
 
-  // Obtener la ubicación del dispositivo y asignarla al activo
-  // async getLocation() {
-  //   try {
-  //     const resp = await this.geolocation.getCurrentPosition();
-  //     this.latitude = resp.coords.latitude;
-  //     this.longitude = resp.coords.longitude;
-  //     this.currentActivo.ubicacion = `Lat: ${this.latitude}, Lon: ${this.longitude}`; // Guardar la ubicación
-  //   } catch (error) {
-  //     console.error('Error obteniendo la ubicación:', error);
-  //   }
-  // }
   async getLocation() {
     try {
       const options = {
-        enableHighAccuracy: true, // Alta precisión
-        timeout: 10000,           // Tiempo máximo en ms para esperar la ubicación
-        maximumAge: 0             // No usar ubicaciones en caché
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
       };
       const resp = await this.geolocation.getCurrentPosition(options);
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
       this.center = {
         lat: this.latitude,
-        lng: this.longitude
-      }; // Actualizar el mapa
+        lng: this.longitude,
+      };
       this.currentActivo.ubicacion = `Lat: ${this.latitude}, Lon: ${this.longitude}`;
     } catch (error) {
       console.error('Error obteniendo la ubicación precisa:', error);
     }
+  }
+
+  async sendLocalNotification(activo: any) {
+    try {
+      await LocalNotifications.requestPermissions();
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            id: Date.now(),
+            title: 'Nuevo Activo Registrado',
+            body: `Activo ${activo.marca} - ${activo.modelo} ha sido agregado.`,
+            schedule: { at: new Date(new Date().getTime() + 1000) },
+            sound: undefined,
+            attachments: undefined,
+            actionTypeId: '',
+            extra: null,
+          },
+        ],
+      });
+    } catch (error) {
+      console.error('Error al enviar notificación local:', error);
+    }
+  }
+
+  getVideoFromYouTube(query: string) {
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&key=${this.youtubeApiKey}`;
+    this.http.get<any>(url).subscribe((data) => {
+      console.log(data);  // Verifica los datos recibidos
+      if (data.items && data.items.length > 0) {
+        const firstVideo = data.items[0];
+        this.videoId = firstVideo.id.videoId;  // Asigna el ID del video
+      }
+    });
   }
   
 }
