@@ -11,11 +11,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx'; // Importar Geolocation
 import { GoogleMapsModule } from '@angular/google-maps';
 import { HomePagePageModule } from './pages/home-page/home-page.module'; // Import the module
+import { HttpClientModule } from '@angular/common/http'; 
 
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [ GoogleMapsModule, BrowserModule, IonicStorageModule.forRoot(), IonicModule.forRoot(), AppRoutingModule,  HomePagePageModule],
+  imports: [ GoogleMapsModule, HttpClientModule,  BrowserModule, IonicStorageModule.forRoot(), IonicModule.forRoot(), AppRoutingModule,  HomePagePageModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], 
   providers: [Geolocation,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
