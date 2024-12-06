@@ -14,6 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./home-page.page.scss'],
 })
 export class HomePagePage {
+  videos: any[] = [];
   
   activos: any[] = [];
   isModalOpen = false;
@@ -34,10 +35,10 @@ export class HomePagePage {
   googleMapsApiKey = environment.googleMapsApiKey;
   youtubeApiKey = environment.youtubeApiKey; 
   
-  constructor(private geolocation: Geolocation, private http: HttpClient, private sanitizer: DomSanitizer) {
+  constructor(private geolocation: Geolocation, private http: HttpClient, public sanitizer: DomSanitizer) {
     this.loadActivos();
     this.getLocation();
-    this.getVideoFromYouTube('tutorial');
+    this.getVideosFromYouTube('inventario');
   }
 
   get safeVideoUrl() {
@@ -158,15 +159,21 @@ export class HomePagePage {
     }
   }
 
-  getVideoFromYouTube(query: string) {
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&key=${this.youtubeApiKey}`;
-    this.http.get<any>(url).subscribe((data) => {
-      console.log(data);  // Verifica los datos recibidos
-      if (data.items && data.items.length > 0) {
-        const firstVideo = data.items[0];
-        this.videoId = firstVideo.id.videoId;  // Asigna el ID del video
+  getVideosFromYouTube(query: string) {
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${query}&key=${this.youtubeApiKey}`;
+    this.http.get<any>(url).subscribe(
+      (data) => {
+        console.log('YouTube API Response:', data);
+        if (data.items && data.items.length > 0) {
+          this.videos = data.items; // Guarda todos los videos en el array
+        } else {
+          console.error('No se encontraron resultados para la consulta.');
+        }
+      },
+      (error) => {
+        console.error('Error al llamar a la API de YouTube:', error);
       }
-    });
+    );
   }
   
 }
