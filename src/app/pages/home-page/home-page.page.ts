@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone, OnInit, OnDestroy } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { NgForm } from '@angular/forms';
@@ -6,16 +6,22 @@ import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
+declare var navigator: any;
 
+// Definición de interfaces para tipar los parámetros
+interface Acceleration {
+  x: number;
+  y: number;
+  z: number;
+}
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.page.html',
   styleUrls: ['./home-page.page.scss'],
 })
-export class HomePagePage {
+export class HomePagePage implements OnInit, OnDestroy {
   videos: any[] = [];
-  
   activos: any[] = [];
   isModalOpen = false;
   currentActivo: any = {};
@@ -24,7 +30,7 @@ export class HomePagePage {
 
   latitude: number = 0;
   longitude: number = 0;
-  videoId: string = ''; 
+  videoId: string = '';
 
   center: google.maps.LatLngLiteral = {
     lat: this.latitude,
@@ -33,9 +39,21 @@ export class HomePagePage {
 
   zoom = 15;
   googleMapsApiKey = environment.googleMapsApiKey;
-  youtubeApiKey = environment.youtubeApiKey; 
-  
-  constructor(private geolocation: Geolocation, private http: HttpClient, public sanitizer: DomSanitizer) {
+  youtubeApiKey = environment.youtubeApiKey;
+
+  shakeThreshold: number = 15; // Sensibilidad al agitar
+  lastX: number = 0;
+  lastY: number = 0;
+  lastZ: number = 0;
+
+  watchId: any;
+
+  constructor(
+    private geolocation: Geolocation,
+    private http: HttpClient,
+    public sanitizer: DomSanitizer,
+    private ngZone: NgZone
+  ) {
     this.loadActivos();
     this.getLocation();
     this.getVideosFromYouTube('inventario');
@@ -52,6 +70,56 @@ export class HomePagePage {
 
   saveActivos() {
     localStorage.setItem('activos', JSON.stringify(this.activos));
+  }
+
+  ngOnInit() {
+    this.startShakeDetection();
+  }
+
+  ngOnDestroy() {
+    this.stopShakeDetection();
+  }
+
+  startShakeDetection() {
+    if (navigator.accelerometer) {
+      this.watchId = navigator.accelerometer.watchAcceleration(
+        (acceleration: Acceleration) => {
+          this.detectShake(acceleration);
+        },
+        (error: any) => {
+          console.error('Error al acceder al acelerómetro:', error);
+        },
+        { frequency: 200 } // Intervalo de detección en milisegundos
+      );
+    } else {
+      console.error('El acelerómetro no está disponible.');
+    }
+  }
+
+  stopShakeDetection() {
+    if (this.watchId) {
+      navigator.accelerometer.clearWatch(this.watchId);
+    }
+  }
+
+  detectShake(acceleration: Acceleration) {
+    const deltaX = Math.abs(acceleration.x - this.lastX);
+    const deltaY = Math.abs(acceleration.y - this.lastY);
+    const deltaZ = Math.abs(acceleration.z - this.lastZ);
+
+    if (
+      deltaX > this.shakeThreshold ||
+      deltaY > this.shakeThreshold ||
+      deltaZ > this.shakeThreshold
+    ) {
+      this.ngZone.run(() => {
+        this.openAddActivoModal(); // Llamar al método para abrir el modal
+      });
+    }
+
+    this.lastX = acceleration.x;
+    this.lastY = acceleration.y;
+    this.lastZ = acceleration.z;
   }
 
   openAddActivoModal() {
@@ -175,5 +243,4 @@ export class HomePagePage {
       }
     );
   }
-  
 }

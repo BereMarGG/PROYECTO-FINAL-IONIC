@@ -37,6 +37,8 @@
     "@capacitor/status-bar": "6.0.1",
     "@ionic/angular": "^8.0.0",
     "@ionic/storage-angular": "^4.0.0",
+    "@types/cordova-plugin-device-motion": "^1.2.7",
+    "cordova-plugin-device-motion": "^2.0.1",
     "cordova-plugin-geolocation": "^5.0.0",
     "firebase": "^11.0.2",
     "googleapis": "^144.0.0",
