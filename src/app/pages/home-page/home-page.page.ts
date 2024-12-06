@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 declare var navigator: any;
+import { Share } from '@capacitor/share';
+import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@awesome-cordova-plugins/media-capture/ngx';
 
 // Definición de interfaces para tipar los parámetros
 interface Acceleration {
@@ -27,6 +29,7 @@ export class HomePagePage implements OnInit, OnDestroy {
   currentActivo: any = {};
   editing = false;
   capturedImage: string | undefined;
+  recordedVideo: string | undefined;
 
   latitude: number = 0;
   longitude: number = 0;
@@ -52,7 +55,8 @@ export class HomePagePage implements OnInit, OnDestroy {
     private geolocation: Geolocation,
     private http: HttpClient,
     public sanitizer: DomSanitizer,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private mediaCapture: MediaCapture
   ) {
     this.loadActivos();
     this.getLocation();
@@ -243,4 +247,42 @@ export class HomePagePage implements OnInit, OnDestroy {
       }
     );
   }
-}
+  
+  async recordVideo() {
+    const options: CaptureVideoOptions = { limit: 1, duration: 30 }; // Limitar a 1 video de 30 segundos
+  
+    try {
+      const mediaFiles = await this.mediaCapture.captureVideo(options);
+  
+      if (Array.isArray(mediaFiles)) {
+        this.recordedVideo = mediaFiles[0].fullPath; // Ruta completa del video grabado
+        console.log('Video grabado:', this.recordedVideo);
+      } else {
+        console.error('Resultado inesperado:', mediaFiles);
+      }
+    } catch (error) {
+      console.error('Error al grabar video:', error);
+    }
+  }
+
+  async shareVideo() {
+    if (!this.recordedVideo) {
+      console.error('No hay video para compartir.');
+      return;
+    }
+  
+    try {
+      await Share.share({
+        title: 'Compartir Video',
+        text: 'Mira este video grabado con mi aplicación.',
+        url: this.recordedVideo, // Ruta al archivo de video
+        dialogTitle: 'Compartir con...',
+      });
+      console.log('Video compartido con éxito');
+    } catch (error) {
+      console.error('Error al compartir video:', error);
+    }
+  }
+  
+  
+}  
