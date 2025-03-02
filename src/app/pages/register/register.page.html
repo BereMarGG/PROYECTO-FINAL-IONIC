@@ -4,7 +4,6 @@
 <ion-content [fullscreen]="true" class="home-background">
   <div class="register-container">
     <ion-card class="register-card" aria-labelledby="register-title">
-      <!-- <ion-img src="assets/QUICKYCOFFEE.png" alt="Logo Quicky Coffee" class="register-image"></ion-img> -->
 
       <ion-card-header>
         <ion-card-title id="register-title">Crea una cuenta</ion-card-title>
@@ -13,42 +12,46 @@
       <ion-card-content>
         <form (ngSubmit)="register()">
           <ion-item>
-            <ion-label position="floating">Nombre</ion-label>
+            <ion-label position="stacked">Nombre</ion-label>
             <ion-input 
               type="text" 
               [(ngModel)]="name" 
               name="name" 
+              placeholder="Ingrese su nombre"
               required>
             </ion-input>
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Correo Electrónico</ion-label>
+            <ion-label position="stacked">Correo Electrónico</ion-label>
             <ion-input 
               type="email" 
               [(ngModel)]="email" 
               name="email" 
+              placeholder="Ingrese su correo"
               required 
               inputmode="email">
             </ion-input>
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Contraseña</ion-label>
+            <ion-label position="stacked">Contraseña</ion-label>
             <ion-input 
               type="password" 
               [(ngModel)]="password" 
               name="password" 
+              placeholder="Ingrese su contraseña"
               required>
             </ion-input>
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Confirmar Contraseña</ion-label>
+            <ion-label position="stacked">Confirmar Contraseña</ion-label>
             <ion-input 
               type="password" 
               [(ngModel)]="confirmPassword" 
               name="confirmPassword" 
+              placeholder="Confirme su contraseña"
               required>
             </ion-input>
           </ion-item>

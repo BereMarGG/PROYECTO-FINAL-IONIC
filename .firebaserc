@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "inventory-app-bere"
-  }
+    "default": "proyecto01-482b3",
+    "proyecto1": "proyecto01-482b3"
+  },
+  "targets": {},
+  "etags": {}
 }
