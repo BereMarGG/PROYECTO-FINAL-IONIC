@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  googleMapsApiKey: 'AIzaSyAwWLzkQBJ_bokB4a_vUsEguMeGUyZKgJg', // Reemplaza con tu clave API
+  googleMapsApiKey: 'AIzaSyCFBJ7H1y-gK9mGqCaTOicbHmD0hcd5jYQ', // Reemplaza con tu clave API
   youtubeApiKey: 'AIzaSyCy5781mwZ-L5BfSYYubNC59emV6Ni9pyc',
 };
 
