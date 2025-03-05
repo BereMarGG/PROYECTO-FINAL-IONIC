@@ -181,7 +181,7 @@ export class HomePagePage implements OnInit, OnDestroy {
         quality: 90,
         allowEditing: false,
         resultType: CameraResultType.DataUrl,
-        source: CameraSource.Prompt 
+        source: CameraSource.Camera // Usar siempre la cámara
       });
   
       this.currentActivo.foto = image.dataUrl; 
