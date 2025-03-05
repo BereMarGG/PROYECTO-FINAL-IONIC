@@ -181,13 +181,15 @@ export class HomePagePage implements OnInit, OnDestroy {
         quality: 90,
         allowEditing: false,
         resultType: CameraResultType.DataUrl,
-        source: CameraSource.Camera,
+        source: CameraSource.Prompt 
       });
-      this.currentActivo.foto = image.dataUrl;
+  
+      this.currentActivo.foto = image.dataUrl; 
     } catch (error) {
-      console.error('Error al capturar imagen:', error);
+      console.error('Error al tomar la foto:', error);
     }
   }
+  
 
   async getLocation() {
     try {
