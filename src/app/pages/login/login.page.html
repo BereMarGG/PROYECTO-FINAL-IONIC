@@ -1,41 +1,27 @@
 <ion-header>
+  <ion-toolbar>
+    <ion-title>Iniciar Sesión</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="home-background">
-  <div class="login-container">
-    <!-- Formulario de Login -->
-    <ion-card class="login-card" aria-labelledby="login-title" role="form">
-      <!-- <ion-img src="assets/QUICKYCOFFEE.png" alt="Logo Quicky Coffee" class="login-image"></ion-img> -->
-
-      <ion-card-header id="login-title">
-        <ion-card-title>Accede a tu cuenta</ion-card-title>
+  <div class="register-container">
+    <ion-card class="register-card" aria-labelledby="login-title">
+      <ion-card-header>
+        <ion-card-title id="login-title">Inicia sesión</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
         <form (ngSubmit)="login()">
           <ion-item>
             <ion-label position="stacked">Correo Electrónico</ion-label>
-            <ion-input 
-              type="email" 
-              [(ngModel)]="email" 
-              name="email" 
-              placeholder="Ingrese su correo"
-              required
-              inputmode="email">
-            </ion-input>
+            <ion-input type="email" [(ngModel)]="email" name="email" placeholder="Ingrese su correo" required inputmode="email"></ion-input>
           </ion-item>
-          
+
           <ion-item>
             <ion-label position="stacked">Contraseña</ion-label>
-            <ion-input 
-              type="password" 
-              [(ngModel)]="password" 
-              name="password" 
-              placeholder="Ingrese su contraseña"
-              required>
-            </ion-input>
+            <ion-input type="password" [(ngModel)]="password" name="password" placeholder="Ingrese su contraseña" required></ion-input>
           </ion-item>
-          
 
           <!-- Mensaje de error -->
           <ion-text color="danger" *ngIf="errorMessage">
@@ -46,12 +32,15 @@
         </form>
       </ion-card-content>
 
-      <div class="register-container">
-        <p class="register-text">¿Aún no tienes cuenta?</p>
+      <div class="login-link-container">
+        <p class="login-link-text">¿No tienes cuenta?</p>
         <ion-button expand="block" fill="outline" color="secondary" routerLink="/register">
-          Crear una cuenta
+          Registrarse
         </ion-button>
       </div>
+
+      <!-- Botón de Login con Google -->
+      <ion-button expand="block" (click)="googleLogin()" color="dark">Login con Google</ion-button>
     </ion-card>
   </div>
 </ion-content>

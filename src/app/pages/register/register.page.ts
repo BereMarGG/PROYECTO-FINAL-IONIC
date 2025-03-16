@@ -1,45 +1,53 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
-export class RegisterPage implements OnInit {
-
+export class RegisterPage {
   name: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
   errorMessage: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService) {}
 
-  ngOnInit() {}
+  async register() {
+    this.errorMessage = '';
 
-  // Método para registrar al usuario
-  register() {
-    if (this.validateEmail(this.email) && this.passwordsMatch()) {
-      // Guardar los datos del usuario registrado en localStorage
-      localStorage.setItem('registeredEmail', this.email);
-      localStorage.setItem('registeredPassword', this.password);
-
-      // Redirigir al login después del registro
-      this.router.navigate(['/login']);
-    } else {
-      this.errorMessage = 'Por favor, verifique los datos ingresados.';
+    if (!this.name.trim()) {
+      this.errorMessage = 'El nombre es obligatorio.';
+      return;
     }
-  }
 
-  // Validar formato del email
-  validateEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
+    if (!this.email.includes('@')) {
+      this.errorMessage = 'Ingrese un correo válido.';
+      return;
+    }
 
-  // Verificar si las contraseñas coinciden
-  passwordsMatch(): boolean {
-    return this.password === this.confirmPassword;
+    if (this.password.length < 6) {
+      this.errorMessage = 'La contraseña debe tener al menos 6 caracteres.';
+      return;
+    }
+
+    if (this.password !== this.confirmPassword) {
+      this.errorMessage = 'Las contraseñas no coinciden.';
+      return;
+    }
+
+    try {
+      await this.authService.register(this.email, this.password, this.name);
+      console.log('Registro exitoso');
+      // Aquí puedes redirigir al login o dashboard, por ejemplo:
+      //this.Router.navigate(['/login']);
+    } catch (error) {
+      this.errorMessage = 'Error en el registro. Intente de nuevo.';
+      console.error(error);
+    }
   }
 }
