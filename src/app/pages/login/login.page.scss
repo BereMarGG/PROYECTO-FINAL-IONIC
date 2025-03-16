@@ -1,79 +1,78 @@
 /* Fondo general de la página */
 .home-background {
-    --background: url('/assets/background.jpg') no-repeat center center / cover;
-    display: flex;
+  --background: url('/assets/background.jpg') no-repeat center center / cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Contenedor principal del formulario */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+}
+
+/* Estilo del formulario de login */
+.register-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--ion-color-light);
+}
+
+/* Imagen del logo */
+.register-image {
+  display: block;
+  max-width: 150px;
+  height: auto;
+  margin: 0 auto 16px;
+}
+
+/* Enlace para redirigir al registro */
+.login-link-container {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.login-link-text {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: var(--ion-color-medium);
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .register-card {
+    max-width: 500px;
+    padding: 24px;
+  }
+
+  .register-image {
+    max-width: 180px;
+  }
+
+  .login-link-text {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .home-background {
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
   }
-  
-  /* Contenedor del formulario */
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 16px;
+
+  .register-card {
+    max-width: 600px;
+    padding: 32px;
   }
-  
-  /* Tarjeta de login */
-  .login-card {
-    width: 100%;
-    max-width: 400px;
-    padding: 16px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: var(--ion-color-light);
+
+  .register-image {
+    max-width: 200px;
   }
-  
-  /* Imagen del logo */
-  .login-image {
-    display: block;
-    max-width: 150px;
-    height: auto;
-    margin: 0 auto 16px;
-  }
-  
-  /* Contenedor de registro */
-  .register-container {
-    text-align: center;
-    margin-top: 1rem;
-  }
-  
-  .register-text {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-    color: var(--ion-color-medium);
-  }
-  
-  /* Media Queries */
-  @media (min-width: 768px) {
-    .login-card {
-      max-width: 500px;
-      padding: 24px;
-    }
-  
-    .login-image {
-      max-width: 180px;
-    }
-  
-    .register-text {
-      font-size: 1rem;
-    }
-  }
-  
-  @media (min-width: 1200px) {
-    .home-background {
-      justify-content: center;
-    }
-  
-    .login-card {
-      max-width: 600px;
-      padding: 32px;
-    }
-  
-    .login-image {
-      max-width: 200px;
-    }
-  }
-  
+}

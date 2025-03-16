@@ -16,4 +16,5 @@ export class AppComponent {
     localStorage.removeItem('registeredPassword');
     this.router.navigate(['/login']); // Redirigir a la página de inicio de sesión
   }
+  
 }

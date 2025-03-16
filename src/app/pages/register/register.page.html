@@ -1,10 +1,8 @@
-<ion-header>
-</ion-header>
+<ion-header></ion-header>
 
 <ion-content [fullscreen]="true" class="home-background">
   <div class="register-container">
     <ion-card class="register-card" aria-labelledby="register-title">
-
       <ion-card-header>
         <ion-card-title id="register-title">Crea una cuenta</ion-card-title>
       </ion-card-header>
@@ -13,47 +11,22 @@
         <form (ngSubmit)="register()">
           <ion-item>
             <ion-label position="stacked">Nombre</ion-label>
-            <ion-input 
-              type="text" 
-              [(ngModel)]="name" 
-              name="name" 
-              placeholder="Ingrese su nombre"
-              required>
-            </ion-input>
+            <ion-input type="text" [(ngModel)]="name" name="name" placeholder="Ingrese su nombre" required></ion-input>
           </ion-item>
 
           <ion-item>
             <ion-label position="stacked">Correo Electrónico</ion-label>
-            <ion-input 
-              type="email" 
-              [(ngModel)]="email" 
-              name="email" 
-              placeholder="Ingrese su correo"
-              required 
-              inputmode="email">
-            </ion-input>
+            <ion-input type="email" [(ngModel)]="email" name="email" placeholder="Ingrese su correo" required inputmode="email"></ion-input>
           </ion-item>
 
           <ion-item>
             <ion-label position="stacked">Contraseña</ion-label>
-            <ion-input 
-              type="password" 
-              [(ngModel)]="password" 
-              name="password" 
-              placeholder="Ingrese su contraseña"
-              required>
-            </ion-input>
+            <ion-input type="password" [(ngModel)]="password" name="password" placeholder="Ingrese su contraseña" required></ion-input>
           </ion-item>
 
           <ion-item>
             <ion-label position="stacked">Confirmar Contraseña</ion-label>
-            <ion-input 
-              type="password" 
-              [(ngModel)]="confirmPassword" 
-              name="confirmPassword" 
-              placeholder="Confirme su contraseña"
-              required>
-            </ion-input>
+            <ion-input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Confirme su contraseña" required></ion-input>
           </ion-item>
 
           <!-- Mensaje de error -->

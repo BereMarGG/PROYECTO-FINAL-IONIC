@@ -14,11 +14,24 @@ import { HomePagePageModule } from './pages/home-page/home-page.module'; // Impo
 import { HttpClientModule } from '@angular/common/http'; 
 import { MediaCapture } from '@awesome-cordova-plugins/media-capture/ngx';
 
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
+import { FirebaseService } from './services/firebase.service';
+
 @NgModule({
   declarations: [AppComponent],
-  imports: [ GoogleMapsModule, HttpClientModule,  BrowserModule, IonicStorageModule.forRoot(), IonicModule.forRoot(), AppRoutingModule,  HomePagePageModule],
+  imports: [ GoogleMapsModule, HttpClientModule,  BrowserModule, IonicStorageModule.forRoot(), IonicModule.forRoot(),
+     AppRoutingModule,  HomePagePageModule,
+     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+     provideAuth(() => getAuth()),
+     provideFirestore(() => getFirestore())
+    ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], 
-  providers: [Geolocation,MediaCapture,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [Geolocation,MediaCapture,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
