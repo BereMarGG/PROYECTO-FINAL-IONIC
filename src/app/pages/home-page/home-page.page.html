@@ -98,20 +98,22 @@
             <ion-input [(ngModel)]="currentActivo.modelo" name="modelo" required></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="stacked">Ubicación</ion-label>
-            <ion-input [(ngModel)]="currentActivo.ubicacion" name="ubicacion" required></ion-input>
+          <label>Ubicación:</label>
+            <select name="ubicacion" [(ngModel)]="currentActivo.ubicacion" required>
+              <option *ngFor="let loc of locations" [value]="loc">{{ loc }}</option>
+            </select>
           </ion-item>
+
+    
           <ion-item>
             <ion-label position="stacked">Código de Barras</ion-label>
             <ion-input [(ngModel)]="currentActivo.codigoBarras" name="codigoBarras" required></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="stacked">Estado</ion-label>
-            <ion-select [(ngModel)]="currentActivo.estado" name="estado" required>
-              <ion-select-option value="activo">Activo</ion-select-option>
-              <ion-select-option value="mantenimiento">En Mantenimiento</ion-select-option>
-              <ion-select-option value="retirado">Retirado</ion-select-option>
-            </ion-select>
+            <label>Estado:</label>
+    <select name="estado" [(ngModel)]="currentActivo.estado" required>
+      <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+    </select>
           </ion-item>
           <ion-item>
             <ion-label position="stacked">Foto</ion-label>

@@ -30,6 +30,8 @@ export class HomePagePage implements OnInit, OnDestroy {
   editing = false;
   capturedImage: string | undefined;
   recordedVideo: string | undefined;
+  locations: string[] = [];
+  states: string[] = [];
 
   latitude: number = 0;
   longitude: number = 0;
@@ -60,11 +62,25 @@ export class HomePagePage implements OnInit, OnDestroy {
   ) {
     this.loadActivos();
     this.getLocation();
+    this.getLocationsAndStates();
     this.getVideosFromYouTube('inventario');
   }
 
   get safeVideoUrl() {
     return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.videoId);
+  }
+
+  getLocationsAndStates() {
+    const url = 'https://us-central1-awi4-393304.cloudfunctions.net/getLocationsAndStates';
+    this.http.get<any>(url).subscribe(
+      (data) => {
+        this.locations = data.locations;
+        this.states = data.states;
+      },
+      (error) => {
+        console.error('Error al obtener ubicaciones y estados:', error);
+      }
+    );
   }
 
   loadActivos() {
@@ -136,6 +152,7 @@ export class HomePagePage implements OnInit, OnDestroy {
       marca: '',
       modelo: '',
       ubicacion: '',
+      estado: '',
       codigoBarras: '',
       foto: '',
     };
